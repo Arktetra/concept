@@ -1,0 +1,17 @@
+site_name: Concept Docs
+repo_url: https://github.com/Arktetra/concept
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          class:
+            show_source: false
+          method:
+            show_source: true

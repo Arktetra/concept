@@ -12,3 +12,11 @@ Run the following to setup pre-commit:
 pre-commit install
 pre-commit autoupdate
 ```
+
+To run the frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```

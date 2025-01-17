@@ -17,6 +17,10 @@
 {@render children()}
 
 <style>
+    :global(body) {
+        margin: 0;  /* for removing space on left and right of hr */
+    }
+
     .nav-bar {
         display: flex;
         justify-content: space-around;

@@ -14,5 +14,8 @@
         border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         display: block;
         padding: 24px 0;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>

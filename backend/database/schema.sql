@@ -11,13 +11,28 @@ CREATE TABLE Posts (
     post_id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     author_id INT NOT NULL,
     metaTitle VARCHAR(255),
-    published_at DATETIME,
+    published_at TIMESTAMP,
     FOREIGN KEY (author_id) REFERENCES Users(user_id)
 );
+
+-- Create a function to update the updated_at column
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Add a trigger to the Posts table
+CREATE TRIGGER set_updated_at
+BEFORE UPDATE ON Posts
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE Tags (
     tag_id SERIAL PRIMARY KEY,
@@ -40,7 +55,7 @@ CREATE TABLE Comments (
     post_id INT NOT NULL,
     user_id INT NOT NULL,
     comment_text TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (post_id) REFERENCES Posts(post_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );

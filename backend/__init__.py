@@ -1,7 +1,10 @@
 from pathlib import Path
 from typing import Any, Mapping
 
+from auth.routes import auth_bp
 from flask import Flask
+
+from backend.database.connection import init_app
 
 
 def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
@@ -31,4 +34,9 @@ def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
     except OSError:
         pass
 
+    init_app(app)
+    app.register_blueprint(auth_bp)
     return app
+
+
+app = create_app()

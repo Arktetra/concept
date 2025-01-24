@@ -1,32 +1,24 @@
-# First run 'pip install mysql-connector-python psycopg2'
-
-import sqlite3
-fd = open('schema.sql', 'r')
-sqlFile = fd.read()
-fd.close()
-
-# all SQL commands (split on ';')
-sqlCommands = sqlFile.split(';')
-connection = sqlite3.connect("concept.db")
-
-def list_tables(connection):
-    #See what tables are present in database
-    cursor = connection.cursor()
-    query = "SELECT name FROM sqlite_master WHERE type='table';" 
-    cursor.execute(query)
-    tables = cursor.fetchall()
-    for table in tables:
-        print(table[0])
-    cursor.close()
+import psycopg2
+from flask import Flask, current_app, g
 
 
-def view_table(connection, table_name):
-    #View the table
-    cursor = connection.cursor()
-    query = f"SELECT * FROM {table_name};"
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    for row in rows:
-        print(row)
-    cursor.close()
-    
+def get_db_connection() -> psycopg2.extensions.connection:
+    if "db_conn" not in g:
+        g.db_conn = psycopg2.connect(
+            host=current_app.config["DB_HOST"],
+            database=current_app.config["DB_NAME"],
+            user=current_app.config["DB_USER"],
+            password=current_app.config["DB_PASSWORD"],
+            port=current_app.config["DB_PORT"],
+        )
+    return g.db_conn
+
+
+def close_db_connection(e: Exception | None = None) -> None:
+    db_conn = g.pop("db_conn", None)
+    if db_conn is not None:
+        db_conn.close()
+
+
+def init_app(app: Flask) -> None:
+    app.teardown_appcontext(close_db_connection)

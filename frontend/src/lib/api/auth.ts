@@ -1,10 +1,9 @@
 // Api call for authentication
 
-const BASE_URL = 'http://127.0.0.1:5000/auth'; //flask server URL
+// const BASE_URL = 'http://127.0.0.1:5000/auth'; //flask server URL
 
 export async function login(email:string, password: string) {
-    const response = await fetch(`${BASE_URL}/login`,{
-
+    const response = await fetch('auth/login', {
         method: 'POST',
         headers: {
             'content-type': 'application/json',

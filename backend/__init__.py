@@ -3,9 +3,6 @@ from typing import Any, Mapping
 
 from flask import Flask
 
-from backend.auth.routes import auth_bp
-from backend.database.connection import init_app
-
 
 def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
     """
@@ -19,6 +16,11 @@ def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY="dev",
+        DB_HOST="dpg-cu5ngjt2ng1s73bh2erg-a.oregon-postgres.render.com",
+        DB_NAME="concept_db",
+        DB_USER="concept_db",
+        DB_PASSWORD="eszJb8N8NOxcaeXn94WFmbViP5lEmX8S",
+        DB_PORT=5432,
     )
 
     if test_config is None:
@@ -34,9 +36,12 @@ def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
     except OSError:
         pass
 
-    init_app(app)
+    from . import db
+
+    db.init_app(app)
+
+    from .auth.routes import auth_bp
+
     app.register_blueprint(auth_bp)
+
     return app
-
-
-app = create_app()

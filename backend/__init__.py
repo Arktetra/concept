@@ -1,9 +1,9 @@
 from pathlib import Path
 from typing import Any, Mapping
 
-from auth.routes import auth_bp
 from flask import Flask
 
+from backend.auth.routes import auth_bp
 from backend.database.connection import init_app
 
 

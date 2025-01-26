@@ -2,22 +2,37 @@
 
 <script lang="ts">
   import { login } from "$lib/api/auth";
+  import { redirect } from "@sveltejs/kit";
   import { writable } from "svelte/store";
+    import { user } from "../../state.svelte";
 
   let email = "john.doe@example.com";
   let password = "securepassword";
   let error = writable("");
 
   async function handleLogin() {
-    try {
-      const response = await login(email, password);
-      console.log("login successfull: ", response);
-      error.set("");
+    try{
+      const response = await fetch("auth/login", {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+        },
+          body: JSON.stringify({email, password}),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error)
+      }
+
+      window.location.href = response.url;
+
+      user.session = true;
     } catch (err) {
       if (err instanceof Error) {
         error.set(err.message);
       } else {
-        error.set("An unknown error occurred.");
+        error.set("An error occurred.");
       }
     }
   }

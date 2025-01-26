@@ -26,6 +26,8 @@ def init_db() -> None:
         cur = db.cursor()
         with current_app.open_resource("schema.sql") as f:
             cur.execute(f.read().decode("utf8"))
+
+        db.commit()
     except Exception as e:
         raise e
 
@@ -57,36 +59,43 @@ def fill_db_command() -> None:
 
         cur.execute(
             """
-            INSERT INTO Users (user_name, email, password, mobile, role)
-            VALUES ('John Doe', 'john.doe@example.com', 'securepassword', '123456789', 'author');
+            INSERT INTO Users (user_id, user_name, email, password, mobile, role)
+            VALUES (1, 'John Doe', 'john.doe@example.com', 'securepassword', '123456789', 'author');
             """
         )
 
         cur.execute(
             """
-            INSERT INTO Posts (title, content, author_id, meta_title, published_at)
-            VALUES ('Sample Post', 'This is a sample post content.', 1, 'Sample Meta Title', NOW());
+            INSERT INTO Posts (post_id, title, content, author_id, meta_title, published_at)
+            VALUES (
+                1,
+                'Sample Post',
+                'This is a sample post content.',
+                1,
+                'Sample Meta Title',
+                NOW()
+            );
             """
         )
 
         cur.execute(
             """
-            INSERT INTO Tags (tag_name, post_id, content)
-            VALUES ('Sample Tag', 1, 'Tag content for the sample post.');
+            INSERT INTO Tags (tag_id, tag_name, post_id, content)
+            VALUES (1, 'Sample Tag', 1, 'Tag content for the sample post.');
             """
         )
 
         cur.execute(
             """
-            INSERT INTO Cateogires (category_name, post_id, description)
-            VALUES ('Sample Category', 1, 'Description of the sample category.');
+            INSERT INTO Categories (category_id, category_name, post_id, description)
+            VALUES (1, 'Sample Category', 1, 'Description of the sample category.');
             """
         )
 
         cur.execute(
             """
-            INSERT INTO Comments (post_id, user_id, comment_text)
-            VALUES (1, 1, 'This is a sample comment.');
+            INSERT INTO Comments (comment_id, post_id, user_id, comment_text)
+            VALUES (1, 1, 1, 'This is a sample comment.');
             """
         )
 
@@ -111,4 +120,5 @@ def show_db_command(name: str) -> None:
 def init_app(app: Flask) -> None:
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+    app.cli.add_command(fill_db_command)
     app.cli.add_command(show_db_command)

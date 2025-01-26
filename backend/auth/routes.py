@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, redirect, request
 
 from backend.db import get_db
 
@@ -27,4 +27,5 @@ def login() -> dict:
         elif user_password != password:
             return jsonify({"error": "Invalid email or password"}), 401
 
-        return jsonify({"message": "Login successful", "user_id": user_id})
+        # return jsonify({"message": "Login successful", "user_id": user_id})
+        return redirect("/"), 303

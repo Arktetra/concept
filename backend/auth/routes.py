@@ -27,5 +27,4 @@ def login() -> dict:
         elif user_password != password:
             return jsonify({"error": "Invalid email or password"}), 401
 
-        # return jsonify({"message": "Login successful", "user_id": user_id})
-        return redirect("/"), 303
+        return redirect("/home"), 303

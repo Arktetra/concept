@@ -18,7 +18,7 @@ def login() -> dict:
                 user = cursor.fetchone()
         except Exception as e:
             print("Error: ", str(e))
-            return jsonify({"errror": "Database error"}), 500
+            return jsonify({"error": "Database error"}), 500
 
         user_id, user_password = user
 

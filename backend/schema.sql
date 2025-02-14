@@ -13,6 +13,14 @@ CREATE TABLE Users (
     role VARCHAR(50)
 );
 
+CREATE TABLE Categories (
+    category_id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    abstract TEXT
+);
+
 CREATE TABLE Posts (
     post_id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -20,9 +28,11 @@ CREATE TABLE Posts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     author_id INT NOT NULL,
-    meta_title VARCHAR(255),
+    category_id INT,
+    abstract VARCHAR(255),
     published_at TIMESTAMP,
-    FOREIGN KEY (author_id) REFERENCES Users(user_id)
+    FOREIGN KEY (author_id) REFERENCES Users(user_id),
+    FOREIGN KEY (category_id) REFERENCES Categories(category_id)
 );
 
 CREATE TABLE Tags (
@@ -30,14 +40,6 @@ CREATE TABLE Tags (
     tag_name VARCHAR(100) NOT NULL,
     post_id INT NOT NULL,
     content TEXT,
-    FOREIGN KEY (post_id) REFERENCES Posts(post_id)
-);
-
-CREATE TABLE Categories (
-    category_id SERIAL PRIMARY KEY,
-    category_name VARCHAR(100) NOT NULL,
-    post_id INT NOT NULL,
-    description TEXT,
     FOREIGN KEY (post_id) REFERENCES Posts(post_id)
 );
 

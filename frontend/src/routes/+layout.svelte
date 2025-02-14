@@ -4,9 +4,10 @@
 
 <div class="header">
     <div class="nav-bar">
-        <h1>Concept</h1>
+        <a href="/concept">
+            <h1>Concept</h1>
+        </a>
         <nav class="nav-links">
-            <a href="/">Home</a>
             <a href="/about">About</a>
             <a href="/settings">Settings</a>
         </nav>
@@ -46,5 +47,10 @@
 
     .nav-links > a:hover {
         text-decoration: underline;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
     }
 </style>

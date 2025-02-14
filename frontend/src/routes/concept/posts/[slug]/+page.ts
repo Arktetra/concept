@@ -2,7 +2,7 @@ import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async ({ fetch, params }) => {
     try {
-        const res = await fetch("posts/get", {
+        const res = await fetch("/posts/get", {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -15,12 +15,15 @@ export const load: PageLoad = async ({ fetch, params }) => {
             throw new Error(error.error);
         }
 
-        let resp = await res.json();
-        console.log(resp["content"]);
+        let data = await res.json();
+        console.log(data["content"]);
 
         return {
-            title: resp["title"],
-            content: resp["content"]
+            title: data["title"],
+            abstract: data["abstract"],
+            content: data["content"],
+            created_at: data["created_at"],
+            updated_at: data["updated_at"]
         }
     } catch (err) {
         console.log(err);

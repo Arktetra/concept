@@ -7,14 +7,14 @@
 <article class="concept">
     <div class="title">
         <h1 class="internal">{data.title}</h1>
-        <p class="internal">Sample abstract</p>
+        <p class="internal">{data.abstract}</p>
     </div>
     <!-- <hr> -->
     <!-- <div class="body">{@html data.content}</div> -->
     <div class="metadata">
         <div class="internal">Author:</div>
-        <div class="internal">Published Date:</div>
-        <div class="internal">Updated Date:</div>
+        <div class="internal">Published Date: {data.created_at}</div>
+        <div class="internal">Updated Date: {data.updated_at}</div>
     </div>
     <div class="body">
         <div class="internal">

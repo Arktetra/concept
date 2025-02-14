@@ -66,13 +66,13 @@ def fill_db_command() -> None:
 
         cur.execute(
             """
-            INSERT INTO Posts (post_id, title, content, author_id, meta_title, published_at)
+            INSERT INTO Posts (post_id, title, content, author_id, abstract, published_at)
             VALUES (
                 1,
                 'Sample Post',
                 'This is a sample post content.',
                 1,
-                'Sample Meta Title',
+                'Sample abstract',
                 NOW()
             );
             """
@@ -87,8 +87,8 @@ def fill_db_command() -> None:
 
         cur.execute(
             """
-            INSERT INTO Categories (category_id, category_name, post_id, description)
-            VALUES (1, 'Sample Category', 1, 'Description of the sample category.');
+            INSERT INTO Categories (category_id, title, abstract)
+            VALUES (1, 'Sample Category', 'Description of the sample category.');
             """
         )
 

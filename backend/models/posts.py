@@ -24,7 +24,13 @@ class Posts:
                 )
                 post = cursor.fetchone()
 
-            data = {"title": post["title"], "content": post["content"]}
+            data = {
+                "title": post["title"],
+                "abstract": post["abstract"],
+                "content": post["content"],
+                "created_at": post["created_at"],
+                "updated_at": post["updated_at"],
+            }
             return jsonify(data)
 
         except Exception as e:

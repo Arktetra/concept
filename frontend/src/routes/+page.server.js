@@ -3,8 +3,8 @@ import { user } from "../state.svelte";
 
 export function load() {
     if (!user.session) {
-        redirect(307, "/login")
+        redirect(307, "/concept/login")
     } else {
-        redirect(307, "/home")
+        redirect(307, "/concept")
     }
 }

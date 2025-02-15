@@ -15,7 +15,7 @@
     })
 </script>
 
-<a href="concept/{concept.type}/{concept.id}" class="category-preview">
+<a href="/concept/{concept.type}/{concept.id}" class="category-preview">
     <h2 class="title">{concept.title}</h2>
     <div class="authors">Author 1, Author 2, Author 3</div>
     <div class="abstract">{concept.abstract}</div>

@@ -30,7 +30,6 @@ CREATE TABLE Posts (
     author_id INT NOT NULL,
     category_id INT,
     abstract VARCHAR(255),
-    published_at TIMESTAMP,
     FOREIGN KEY (author_id) REFERENCES Users(user_id),
     FOREIGN KEY (category_id) REFERENCES Categories(category_id)
 );

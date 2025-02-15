@@ -66,14 +66,23 @@ def fill_db_command() -> None:
 
         cur.execute(
             """
-            INSERT INTO Posts (post_id, title, content, author_id, abstract, published_at)
-            VALUES (
-                1,
-                'Sample Post',
+            INSERT INTO Categories (category_id, title, abstract)
+            VALUES (1, 'Sample Category', 'Description of the sample category.');
+            """
+        )
+
+        cur.execute(
+            """
+            INSERT INTO Posts (post_id, title, content, author_id, abstract, category_id)
+            VALUES
+            (1, 'Sample Post', 'This is a sample post content.', 1, 'Sample abstract', NULL),
+            (
+                2,
+                'Sample Post that is inside a Category',
                 'This is a sample post content.',
                 1,
                 'Sample abstract',
-                NOW()
+                1
             );
             """
         )
@@ -82,13 +91,6 @@ def fill_db_command() -> None:
             """
             INSERT INTO Tags (tag_id, tag_name, post_id, content)
             VALUES (1, 'Sample Tag', 1, 'Tag content for the sample post.');
-            """
-        )
-
-        cur.execute(
-            """
-            INSERT INTO Categories (category_id, title, abstract)
-            VALUES (1, 'Sample Category', 'Description of the sample category.');
             """
         )
 

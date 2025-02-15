@@ -52,4 +52,8 @@ def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
 
     app.register_blueprint(concepts.bp)
 
+    from . import categories
+
+    app.register_blueprint(categories.bp)
+
     return app

@@ -12,27 +12,38 @@ class Categories:
 
     @staticmethod
     def get(id: int) -> Response:
-        try:
-            conn = get_db()
-            with conn.cursor(cursor_factory=DictCursor) as cursor:
-                cursor.execute(
-                    """
-                SELECT * FROM Categories
+        # try:
+        conn = get_db()
+        with conn.cursor(cursor_factory=DictCursor) as cursor:
+            cursor.execute(
+                """
+                SELECT *, 'posts' AS type FROM Posts
                 WHERE category_id = (%s)
                 """,
-                    (id,),
-                )
-                category = cursor.fetchone()
+                (id,),
+            )
+            posts = cursor.fetchall()
+            print(posts)
 
-            data = {
-                "title": category["title"],
-                "abstract": category["abstract"],
-                "created at": category["created at"],
-                "updated at": category["updated at"],
-            }
+        data = []
 
-            return jsonify(data)
+        for post in posts:
+            print(f"category id: {post['category_id']}")
+            data.append(
+                {
+                    "id": post[0],
+                    "title": post["title"],
+                    "abstract": post["abstract"],
+                    "created_at": post["created_at"],
+                    "updated_at": post["updated_at"],
+                    "type": post["type"],
+                }
+            )
 
-        except Exception as e:
-            print("Error: ", str(e))
-            return jsonify({"error": "Database error"}), 500
+        print(data)
+
+        return jsonify(data)
+
+    # except Exception as e:
+    #     print("Error: ", str(e))
+    #     return jsonify({"error": "Database error"}), 500

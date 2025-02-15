@@ -2,22 +2,23 @@
     let { children } = $props();
 </script>
 
-<div class="header">
+<!-- <div class="header">
     <div class="nav-bar">
         <a href="/concept">
             <h1>Concept</h1>
         </a>
         <nav class="nav-links">
+            <a href="/concept/create">Create</a>
             <a href="/about">About</a>
             <a href="/settings">Settings</a>
         </nav>
     </div>
     <hr>
-</div>
+</div> -->
 
 {@render children()}
 
-<style>
+<!-- <style>
     :global(body) {
         margin: 0;  /* for removing space on left and right of hr */
     }
@@ -53,4 +54,4 @@
         color: black;
         text-decoration: none;
     }
-</style>
+</style> -->

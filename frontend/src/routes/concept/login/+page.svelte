@@ -1,10 +1,8 @@
 <!-- login page -->
 
 <script lang="ts">
-  import { login } from "$lib/api/auth";
-  import { redirect } from "@sveltejs/kit";
   import { writable } from "svelte/store";
-    import { user } from "../../state.svelte";
+  import { user } from "../../../state.svelte";
 
   let email = "john.doe@example.com";
   let password = "securepassword";

@@ -80,9 +80,6 @@
     }
 
     @media only screen and (max-width: 768px) {
-        /* :global(body) {
-            background-color: lightblue;
-        } */
         .internal {
             width: 95vw;
         }

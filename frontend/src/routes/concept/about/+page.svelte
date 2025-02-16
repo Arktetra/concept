@@ -1,6 +1,3 @@
-<p>Todo</p>
-<a href="/">Home</a>
-
 <script>
     const developers = [
         {

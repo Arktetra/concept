@@ -1,6 +1,3 @@
-<p>Todo</p>
-<a href="/home">Home</a>
-
 <script>
     // Reactive variables for settings
     let theme = 'light'; // Default theme
@@ -174,7 +171,7 @@
 
     <!-- Save Button -->
     <button class="save-button" on:click={saveSettings}>
-        
+
         Save Changes
     </button>
 </div>

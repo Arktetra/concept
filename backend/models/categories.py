@@ -23,12 +23,24 @@ class Categories:
                 (id,),
             )
             posts = cursor.fetchall()
-            print(posts)
+
+            cursor.execute(
+                """
+                SELECT user_name FROM Users
+                JOIN PostUser
+                ON Users.user_id = PostUser.user_id
+                JOIN Posts
+                ON Posts.post_id = PostUser.post_id
+                WHERE Posts.category_id = (%s)
+                """,
+                (id,),
+            )
+
+            authors = cursor.fetchall()
 
         data = []
 
         for post in posts:
-            print(f"category id: {post['category_id']}")
             data.append(
                 {
                     "id": post[0],
@@ -36,11 +48,10 @@ class Categories:
                     "abstract": post["abstract"],
                     "created_at": post["created_at"],
                     "updated_at": post["updated_at"],
+                    "authors": authors,
                     "type": post["type"],
                 }
             )
-
-        print(data)
 
         return jsonify(data)
 

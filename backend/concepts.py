@@ -16,6 +16,6 @@ def add_concepts() -> None:
         title = request.json["title"]
         abstract = request.json["abstract"]
         content = request.json["content"]
-        print(title)
-        print(abstract)
-        print(content)
+        author_ids = request.json["author_id"]
+
+        return Concepts.add(title, abstract, content, author_ids)

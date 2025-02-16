@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS Users CASCADE;
 DROP TABLE IF EXISTS Posts CASCADE;
+DROP TABLE IF EXISTS PostUser CASCADE;
 DROP TABLE IF EXISTS Tags CASCADE;
 DROP TABLE IF EXISTS Categories CASCADE;
 DROP TABLE IF EXISTS Comments CASCADE;
@@ -27,11 +28,16 @@ CREATE TABLE Posts (
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    author_id INT NOT NULL,
     category_id INT,
     abstract VARCHAR(255),
-    FOREIGN KEY (author_id) REFERENCES Users(user_id),
     FOREIGN KEY (category_id) REFERENCES Categories(category_id)
+);
+
+CREATE TABLE PostUser (
+    post_id INT,
+    user_id INT,
+    FOREIGN KEY (post_id) REFERENCES Posts(post_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
 CREATE TABLE Tags (

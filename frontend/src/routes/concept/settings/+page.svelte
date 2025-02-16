@@ -129,11 +129,7 @@
         background: #6d28d9; /* Darker purple on hover */
     }
 
-    .save-button svg {
-        width: 18px;
-        height: 18px;
-        fill: #fff;
-    }
+
 </style>
 
 <!-- Settings Section -->

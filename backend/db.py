@@ -73,17 +73,25 @@ def fill_db_command() -> None:
 
         cur.execute(
             """
-            INSERT INTO Posts (post_id, title, content, author_id, abstract, category_id)
+            INSERT INTO Posts (post_id, title, content, abstract, category_id)
             VALUES
-            (1, 'Sample Post', 'This is a sample post content.', 1, 'Sample abstract', NULL),
+            (1, 'Sample Post', 'This is a sample post content.', 'Sample abstract', NULL),
             (
                 2,
                 'Sample Post that is inside a Category',
                 'This is a sample post content.',
-                1,
                 'Sample abstract',
                 1
             );
+            """
+        )
+
+        cur.execute(
+            """
+            INSERT INTO PostUser (post_id, user_id)
+            VALUES
+                (1, 1),
+                (2, 1);
             """
         )
 

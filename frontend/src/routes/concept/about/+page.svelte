@@ -26,14 +26,6 @@
 
 <style>
     /* General Styles */
-    :global(body) {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f9f9f9;
-        color: #333;
-    }
-
     .container {
         width: 90%;
         max-width: 1200px;

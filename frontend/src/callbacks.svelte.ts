@@ -28,7 +28,8 @@ export const addConcepts = async () => {
             body: JSON.stringify({
                 title: concept.title,
                 abstract: concept.abstract,
-                content: concept.content
+                content: concept.content,
+                author_id: 1
             })
         });
 

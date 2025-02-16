@@ -9,6 +9,7 @@
         abstract: string,
         created_at: string,
         updated_at: string,
+        authors: string[],
         type: string
     }[];
 

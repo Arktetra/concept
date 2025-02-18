@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { register } from "$lib/api/registration";
   import { writable } from "svelte/store";
+  import { registerCallback } from "../../../callbacks.svelte";
+  import { errorTracker } from "../../../state.svelte";
   // Writable stores to hold form input values
   let userName = "";
   let email = "";
@@ -8,35 +9,11 @@
   let mobile = "";
   let role = "";
 
-  let error = writable("");
   let success = writable("");
-
-  async function handleRegister() {
-    try {
-      const userData = {
-        user_name: userName,
-        email,
-        password,
-        mobile: mobile || undefined,
-        role: role || undefined,
-      };
-
-      const response = await register(userData);
-      console.log("Registration successful:", response);
-      success.set("Registration successful!");
-      error.set("");
-    } catch (err) {
-      if (err instanceof Error) {
-        error.set(err.message);
-      } else {
-        error.set("An unknown error occurred.");
-      }
-    }
-  }
 </script>
 
 <div class="wrapper">
-  <form on:submit|preventDefault={handleRegister}>
+  <form on:submit|preventDefault={() => registerCallback(userName, email, password, mobile)}>
     <h2>Register</h2>
 
     <label for="userName">Full Name</label>
@@ -81,8 +58,8 @@
       <option value="admin">Admin</option>
     </select>
 
-    {#if $error}
-      <p class="error">{$error}</p>
+    {#if errorTracker.message !== ""}
+      <p class="error">{errorTracker.message}</p>
     {/if}
     {#if $success}
       <p class="success">{$success}</p>

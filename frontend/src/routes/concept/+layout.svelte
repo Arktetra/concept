@@ -1,5 +1,5 @@
 <script>
-    import { addConcepts } from '../../callbacks.svelte';
+    import { discardCallback, publishCallback } from '../../callbacks.svelte';
     import { create } from '../../state.svelte';
 
     let { children } = $props();
@@ -16,7 +16,7 @@
                     <button
                         id="publish"
                         class="post-related-button"
-                        onclick={addConcepts}
+                        onclick={publishCallback}
                     >
                     Publish
                     </button>
@@ -24,6 +24,7 @@
                 <button
                     id="discard"
                     class="post-related-button"
+                    onclick={discardCallback}
                 >
                 Discard
                 </button>

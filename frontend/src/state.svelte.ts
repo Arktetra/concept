@@ -1,10 +1,17 @@
 export const user = $state({
-    session: false
+    session: false,
+    email: "",
 });
 
 export const create = $state({
-    clicked: false
+    clicked: false,
+    type: "",
+    success: true
 });
+
+export const errorTracker = $state({
+    message: ""
+})
 
 export const concept = $state({
     title: "",

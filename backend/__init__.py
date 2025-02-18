@@ -14,12 +14,24 @@ def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
         test_config (_type_, optional): test configuraiton. Defaults to None.
     """
     app = Flask(__name__, instance_relative_config=True)
+
+    # when releasing, uncomment this and comment the one below this.
+
+    # app.config.from_mapping(
+    #     SECRET_KEY="dev",
+    #     DB_HOST="dpg-cu5ngjt2ng1s73bh2erg-a.oregon-postgres.render.com",
+    #     DB_NAME="concept_db",
+    #     DB_USER="concept_db",
+    #     DB_PASSWORD="eszJb8N8NOxcaeXn94WFmbViP5lEmX8S",
+    #     DB_PORT=5432,
+    # )
+
     app.config.from_mapping(
         SECRET_KEY="dev",
-        DB_HOST="dpg-cu5ngjt2ng1s73bh2erg-a.oregon-postgres.render.com",
-        DB_NAME="concept_db",
-        DB_USER="concept_db",
-        DB_PASSWORD="eszJb8N8NOxcaeXn94WFmbViP5lEmX8S",
+        DB_HOST="dpg-cuq2a92n91rc73apnv4g-a.singapore-postgres.render.com",
+        DB_NAME="concept_db_9m7u",
+        DB_USER="concept_db_9m7u_user",
+        DB_PASSWORD="5EyaWtjsqtNPbQHGiuPTGvq9gtWZ52eN",
         DB_PORT=5432,
     )
 
@@ -40,9 +52,9 @@ def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
 
     db.init_app(app)
 
-    from .auth.routes import auth_bp
+    from . import accounts
 
-    app.register_blueprint(auth_bp)
+    app.register_blueprint(accounts.bp)
 
     from . import posts
 

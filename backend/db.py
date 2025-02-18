@@ -13,6 +13,7 @@ def get_db() -> connection:
             password=current_app.config["DB_PASSWORD"],
             port=current_app.config["DB_PORT"],
         )
+
     return g.db
 
 

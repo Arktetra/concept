@@ -2,7 +2,9 @@ from flask import Response, jsonify
 from psycopg2.extras import DictCursor
 
 from backend.db import get_db
+from backend.models.categories import Categories
 from backend.models.posts import Posts
+from backend.utils import database_error
 
 
 class Concepts:
@@ -12,10 +14,13 @@ class Concepts:
         A function to get all the concepts from the database. Concepts here
         means all the posts which are not in a category, and all the categories.
         """
+
         try:
             conn = get_db()
 
             with conn.cursor(cursor_factory=DictCursor) as cursor:
+                # get posts which are not in any categories amd the
+                # categories
                 cursor.execute(
                     """
                     SELECT * FROM (
@@ -31,6 +36,7 @@ class Concepts:
                 )
                 concepts = cursor.fetchall()
 
+                # get authors of each post
                 cursor.execute(
                     """
                     SELECT Posts.post_id, user_name FROM Users
@@ -43,6 +49,7 @@ class Concepts:
                 )
                 post_authors = cursor.fetchall()
 
+                # get authors in each categories
                 cursor.execute(
                     """
                     SELECT category_id, user_name FROM Users
@@ -76,7 +83,10 @@ class Concepts:
                 if concept["type"] == "posts":
                     authors = post_authors_map[concept[0]]
                 else:
-                    authors = category_authors_map[concept[0]]
+                    if concept[0] in category_authors_map:
+                        authors = category_authors_map[concept[0]]
+                    else:
+                        authors = []
 
                 data.append(
                     {
@@ -91,39 +101,16 @@ class Concepts:
                 )
 
             return jsonify(data)
-
         except Exception as e:
-            print("Error: ", str(e))
-            return jsonify({"error": "Database error"}), 500
+            database_error(e)
 
     @staticmethod
-    def add(title: str, abstract: str, content: str, author_ids: list[int]) -> Response:
-        try:
-            conn = get_db()
-
-            with conn.cursor(cursor_factory=DictCursor) as cursor:
-                post_id = Posts.get_next_id()
-
-                cursor.execute(
-                    """
-                    INSERT INTO Posts (post_id, title, abstract, content)
-                    VALUES (%s, %s, %s, %s)
-                    """,
-                    [post_id, title, abstract, content],
-                )
-
-                for author_id in author_ids:
-                    cursor.execute(
-                        """
-                        INSERT INTO PostUser (post_id, author_id)
-                        VALUES (%s, %s)
-                        """,
-                        [post_id, author_id],
-                    )
-
-            conn.commit()
-
-            return "", 201
-        except Exception as e:
-            print("Error:", str(e))
-            return jsonify({"error": "Database error"}), 500
+    def add(
+        title: str, abstract: str, content: str, author_ids: list[int], concept_type: str
+    ) -> Response:
+        if concept_type == "post":
+            return Posts.add(title, abstract, content, author_ids)
+        elif concept_type == "category":
+            return Categories.add(title, abstract)
+        else:
+            return jsonify({"error": f"unknown type of concept {concept_type}."}), 500

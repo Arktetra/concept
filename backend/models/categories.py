@@ -2,6 +2,7 @@ from flask import Response, jsonify
 from psycopg2.extras import DictCursor
 
 from backend.db import get_db
+from backend.utils import database_error
 
 
 class Categories:
@@ -55,6 +56,51 @@ class Categories:
 
         return jsonify(data)
 
-    # except Exception as e:
-    #     print("Error: ", str(e))
-    #     return jsonify({"error": "Database error"}), 500
+    @staticmethod
+    def get_next_id() -> int:
+        """
+        A function to get the category id for the new category.
+
+        Returns:
+            int: a category id.
+        """
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cursor:
+                cursor.execute(
+                    """
+                    SELECT category_id FROM Categories
+                    ORDER BY category_id DESC
+                    LIMIT 1;
+                    """
+                )
+                category_id = cursor.fetchone()
+
+                category_id = category_id[0] if category_id else 1
+
+            return category_id + 1
+        except Exception as e:
+            return database_error(e)
+
+    @staticmethod
+    def add(title: str, abstract: str) -> Response:
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cursor:
+                category_id = Categories.get_next_id()
+
+                cursor.execute(
+                    """
+                    INSERT INTO Categories (category_id, title, abstract)
+                    VALUES (%s, %s, %s)
+                    """,
+                    [category_id, title, abstract],
+                )
+
+                conn.commit()
+
+            return "", 201
+        except Exception as e:
+            return database_error(e)

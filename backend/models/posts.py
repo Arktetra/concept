@@ -2,6 +2,7 @@ from flask import Response, jsonify
 from psycopg2.extras import DictCursor
 
 from backend.db import get_db
+from backend.utils import database_error
 
 
 class Posts:
@@ -47,8 +48,7 @@ class Posts:
             return jsonify(data)
 
         except Exception as e:
-            print("Error: ", str(e))
-            return jsonify({"error": "Database error"}), 500
+            return database_error(e)
 
     @staticmethod
     def get_next_id() -> int:
@@ -69,9 +69,41 @@ class Posts:
                     LIMIT 1;
                     """
                 )
-                post_id = cursor.fetchone()[0]
+                post_id = cursor.fetchone()
+
+                post_id = post_id[0] if post_id else 1
 
             return post_id + 1
         except Exception as e:
-            print("Error: ", str(e))
-            return jsonify({"error": "Database error"}), 500
+            return database_error(e)
+
+    @staticmethod
+    def add(title: str, abstract: str, content: str, author_ids: list[int]) -> Response:
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cursor:
+                post_id = Posts.get_next_id()
+
+                cursor.execute(
+                    """
+                    INSERT INTO Posts (post_id, title, abstract, content)
+                    VALUES (%s, %s, %s, %s)
+                    """,
+                    [post_id, title, abstract, content],
+                )
+
+                for author_id in author_ids:
+                    cursor.execute(
+                        """
+                        INSERT INTO PostUser (post_id, user_id)
+                        VALUES (%s, %s)
+                        """,
+                        [post_id, author_id],
+                    )
+
+                conn.commit()
+
+            return "", 201
+        except Exception as e:
+            return database_error(e)

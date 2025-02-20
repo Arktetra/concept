@@ -1,8 +1,9 @@
 <script>
     import { discardCallback, publishCallback } from '../../callbacks.svelte';
-    import { create } from '../../state.svelte';
+    import { create, user } from '../../state.svelte';
 
     let { children } = $props();
+
 </script>
 
 <div class="header">
@@ -29,7 +30,11 @@
                 Discard
                 </button>
             {:else}
-                <a href="/concept/create">Create</a>
+                {#if user.email === ""}
+                    <a href="/concept/register">Create</a>
+                {:else}
+                    <a href="/concept/create">Create</a>
+                {/if}
             {/if}
             <a href="/concept/about">About</a>
             <a href="/concept/settings">Settings</a>

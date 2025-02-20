@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS Users CASCADE;
 DROP TABLE IF EXISTS Posts CASCADE;
 DROP TABLE IF EXISTS PostUser CASCADE;
 DROP TABLE IF EXISTS Tags CASCADE;
+DROP TABLE IF EXISTS PostTag CASCADE;
 DROP TABLE IF EXISTS Categories CASCADE;
 DROP TABLE IF EXISTS Comments CASCADE;
 
@@ -39,12 +40,24 @@ CREATE TABLE PostUser (
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
+-- CREATE TABLE Tags (
+--     tag_id SERIAL PRIMARY KEY,
+--     tag_name VARCHAR(100) NOT NULL,
+--     post_id INT NOT NULL,
+--     content TEXT,
+--     FOREIGN KEY (post_id) REFERENCES Posts(post_id)
+-- );
+
 CREATE TABLE Tags (
     tag_id SERIAL PRIMARY KEY,
-    tag_name VARCHAR(100) NOT NULL,
-    post_id INT NOT NULL,
-    content TEXT,
-    FOREIGN KEY (post_id) REFERENCES Posts(post_id)
+    tag_name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE PostTag (
+    post_id INT,
+    tag_id INT,
+    FOREIGN KEY (post_id) REFERENCES Posts(post_id),
+    FOREIGN KEY (tag_id) REFERENCES Tags(tag_id)
 );
 
 CREATE TABLE Comments (

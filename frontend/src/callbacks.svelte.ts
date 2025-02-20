@@ -126,6 +126,7 @@ export const addConcept = async () => {
 export const publishCallback = async () => {
     if (concept.title === "") {
         console.log("Enter a title.");
+        return;
     }
 
     await addConcept();
@@ -136,6 +137,8 @@ export const publishCallback = async () => {
         concept.content = "";
         concept.tags = "";
     }
+
+    goto("/concept/");
 }
 
 export const discardCallback = () => {

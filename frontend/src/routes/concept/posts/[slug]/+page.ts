@@ -24,7 +24,8 @@ export const load: PageLoad = async ({ fetch, params }) => {
             content: data["content"],
             created_at: data["created_at"],
             updated_at: data["updated_at"],
-            authors: data["authors"]
+            authors: data["authors"],
+            tags: data["tags"],
         }
     } catch (err) {
         console.log(err);

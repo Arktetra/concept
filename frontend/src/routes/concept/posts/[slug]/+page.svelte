@@ -8,6 +8,13 @@
     <div class="title">
         <h1 class="internal">{data.title}</h1>
         <p class="internal">{data.abstract}</p>
+        <div class="tags internal">
+            {#each data.tags as tag}
+                <div class="tag">
+                    {tag}
+                </div>
+            {/each}
+        </div>
     </div>
     <!-- <hr> -->
     <!-- <div class="body">{@html data.content}</div> -->
@@ -24,9 +31,17 @@
 </article>
 
 <style>
-    /* hr {
-        border: 1px solid black;
-    } */
+    .tags {
+        display: flex;
+        gap: 5px;
+    }
+
+    .tag {
+        background-color: #d3d3d3;
+        border-radius: 10px;
+        padding: 0px 10px;
+        color: #333333;
+    }
 
     .concept {
         display: flex;

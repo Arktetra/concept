@@ -2,6 +2,7 @@ from flask import Response, jsonify
 from psycopg2.extras import DictCursor
 
 from backend.db import get_db
+from backend.models.tags import Tags
 from backend.utils import database_error
 
 
@@ -78,7 +79,42 @@ class Posts:
             return database_error(e)
 
     @staticmethod
-    def add(title: str, abstract: str, content: str, author_ids: list[int]) -> Response:
+    def get_tags(post_id: int) -> list[str]:
+        """
+        A function that returns the tags associated with a post given the post id.
+
+        Args:
+            post_id (int): id of the post.
+
+        Returns:
+            list[str]: tags associated with the provided post id.
+        """
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cursor:
+                cursor.execute(
+                    """
+                    SELECT tag_name FROM PostTag
+                    JOIN Tags
+                    ON PostTag.tag_id = Tags.tag_id
+                    WHERE post_id = (%s);
+                    """,
+                    [post_id],
+                )
+
+                result = cursor.fetchall()
+
+                tags = [r for row in result for r in row] if result else []
+
+            return tags
+        except Exception as e:
+            database_error(e)
+
+    @staticmethod
+    def add(
+        title: str, abstract: str, content: str, author_ids: list[int], tags: list[str]
+    ) -> Response:
         try:
             conn = get_db()
 
@@ -100,6 +136,17 @@ class Posts:
                         VALUES (%s, %s)
                         """,
                         [post_id, author_id],
+                    )
+
+                for tag in tags:
+                    Tags.add(tag)
+
+                    cursor.execute(
+                        """
+                        INSERT INTO PostTag (post_id, tag_id)
+                        VALUES (%s, %s)
+                        """,
+                        [post_id, Tags.get_id(tag)],
                     )
 
                 conn.commit()

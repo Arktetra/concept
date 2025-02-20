@@ -16,5 +16,6 @@ export const errorTracker = $state({
 export const concept = $state({
     title: "",
     abstract: "",
-    content: ""
+    content: "",
+    tags: "",
 });

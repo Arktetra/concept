@@ -19,6 +19,15 @@
                 placeholder="Title"
                 bind:value={concept.title}
             ></textarea>
+            <div class="tags internal">
+                <label for="tags">tags:</label>
+                <textarea
+                    id="#tags"
+                    class="tags internal"
+                    bind:value={concept.tags}
+                >
+                </textarea>
+            </div>
             <textarea
                 class="abstract internal"
                 placeholder="Abstract"
@@ -35,6 +44,13 @@
     <div class="render">
         <div class="title-block">
             <h1 class="title internal">{concept.title}</h1>
+            <div class="tags internal">
+                {#each new Set(concept.tags.trim().split(" ")) as tag}
+                <div class="tag">
+                    {tag}
+                </div>
+                {/each}
+            </div>
             <p class="abstract internal">{concept.abstract}</p>
         </div>
         <div
@@ -103,6 +119,19 @@
         outline: none;
     }
 
+    .tag {
+        background-color: #d3d3d3;
+        border-radius: 10px;
+        padding: 0px 10px;
+        color: #333333;
+    }
+
+    .tags {
+        display: flex;
+        font-size: 18px;
+        gap: 5px;
+    }
+
     .title {
         padding: 1rem 0rem 1rem 0;
         font-size: 48px;
@@ -112,6 +141,7 @@
 
     .abstract {
         font-size: 18px;
+        padding-top: 10px;
     }
 
     .body {

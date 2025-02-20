@@ -7,6 +7,7 @@
             created_at: string,
             updated_at: string,
             authors: string[],
+            tags: string[],
             type: string
         }
     } = $props();
@@ -19,6 +20,13 @@
 <a href="/concept/{concept.type}/{concept.id}" class="category-preview">
     <h2 class="title">{concept.title}</h2>
     <div class="authors">{concept.authors.join(", ")}</div>
+    <div class="tags">
+        {#each concept.tags as tag}
+            <div class="tag">
+                {tag}
+            </div>
+        {/each}
+    </div>
     <div class="abstract">{concept.abstract}</div>
     <!-- <div class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim eum facilis aspernatur perferendis? Architecto aut esse repellat exercitationem. Quod laborum minus porro accusantium earum, ipsam omnis atque. Placeat, autem reprehenderit!</div> -->
 </a>
@@ -32,6 +40,19 @@
         width: 80%;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .tags {
+        display: flex;
+        gap: 5px;
+    }
+
+    .tag {
+        background-color: #d3d3d3;
+        border-radius: 10px;
+        padding: 0px 10px;
+        color: #333333;
+        margin: 10px 0px;
     }
 
     .title {

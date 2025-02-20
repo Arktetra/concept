@@ -10,6 +10,7 @@
         created_at: string,
         updated_at: string,
         authors: string[],
+        tags: string[],
         type: string
     }[];
 

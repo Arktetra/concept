@@ -19,7 +19,7 @@ class Concepts:
             conn = get_db()
 
             with conn.cursor(cursor_factory=DictCursor) as cursor:
-                # get posts which are not in any categories amd the
+                # get posts which are not in any categories and the
                 # categories
                 cursor.execute(
                     """
@@ -82,11 +82,14 @@ class Concepts:
             for concept in concepts:
                 if concept["type"] == "posts":
                     authors = post_authors_map[concept[0]]
+                    tags = Posts.get_tags(concept[0])
                 else:
                     if concept[0] in category_authors_map:
                         authors = category_authors_map[concept[0]]
                     else:
                         authors = []
+
+                    tags = []
 
                 data.append(
                     {
@@ -96,6 +99,7 @@ class Concepts:
                         "created_at": concept["created_at"],
                         "updated_at": concept["updated_at"],
                         "authors": authors,
+                        "tags": tags,
                         "type": concept["type"],
                     }
                 )
@@ -106,10 +110,15 @@ class Concepts:
 
     @staticmethod
     def add(
-        title: str, abstract: str, content: str, author_ids: list[int], concept_type: str
+        title: str,
+        abstract: str,
+        content: str,
+        author_ids: list[int],
+        tags: list[str],
+        concept_type: str,
     ) -> Response:
         if concept_type == "post":
-            return Posts.add(title, abstract, content, author_ids)
+            return Posts.add(title, abstract, content, author_ids, tags)
         elif concept_type == "category":
             return Categories.add(title, abstract)
         else:

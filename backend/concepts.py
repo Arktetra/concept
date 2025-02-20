@@ -23,5 +23,6 @@ def add_concepts() -> None:
             abstract=request.json["abstract"],
             content=request.json["content"],
             author_ids=author_ids,
+            tags=request.json["tags"],
             concept_type=request.json["type"],
         )

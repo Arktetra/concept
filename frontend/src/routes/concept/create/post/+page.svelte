@@ -162,7 +162,7 @@
 
     .source, .render {
         height: 90vh;
-        max-height: 90vh;
+        max-height: 87vh;
         overflow-y: scroll;
     }
 
@@ -183,18 +183,18 @@
 
     :global(html) {
         overflow-x: hidden;
-        overflow-y: hidden;
+        /* overflow-y: hidden; */
     }
 
-    ::-webkit-scrollbar {
+    :global(::-webkit-scrollbar) {
         width: 5px;
     }
 
-    ::-webkit-scrollbar-track {
+    :global(::-webkit-scrollbar-track) {
         background: #f1f1f1;
     }
 
-    ::-webkit-scrollbar-thumb {
+    :global(::-webkit-scrollbar-thumb) {
         background: #888;
         border-radius: 5px;
     }

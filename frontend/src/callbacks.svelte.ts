@@ -1,4 +1,3 @@
-import { redirect } from "@sveltejs/kit";
 import { concept, create, errorTracker, user } from "./state.svelte";
 import { goto } from "$app/navigation";
 
@@ -34,7 +33,7 @@ export const registerCallback = async (user_name: string, email: string, passwor
 
         user.email = email;
 
-        window.location.href = "/concept/";
+        goto("/concept/");
     } catch (err) {
         console.log(err);
     }
@@ -102,13 +101,14 @@ export const addConcept = async () => {
                 abstract: concept.abstract,
                 content: concept.content,
                 author_emails: [user.email],
+                tags: concept.tags.trim().split(" "),
                 type: create.type
             })
         });
 
         if (!res.ok) {
             if (res.status === 401) {
-                window.location.href = "/concept/register";
+                goto("/concept/register");
             }
 
             const error = await res.json();
@@ -128,16 +128,13 @@ export const publishCallback = async () => {
         console.log("Enter a title.");
     }
 
-    if (user.email === "") {
-        window.location.href = "/concept/register";
-    }
-
     await addConcept();
 
     if (create.success) {
         concept.title = "";
         concept.abstract = "";
         concept.content = "";
+        concept.tags = "";
     }
 }
 

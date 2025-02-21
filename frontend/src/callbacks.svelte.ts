@@ -1,5 +1,6 @@
 import { concept, create, errorTracker, post, user } from "./state.svelte";
 import { goto } from "$app/navigation";
+import { Cookie } from "./cookie";
 
 export const resetErrorTracker = () => {
     errorTracker.message = "";
@@ -100,7 +101,7 @@ export const addConcept = async () => {
                 title: concept.title,
                 abstract: concept.abstract,
                 content: concept.content,
-                author_emails: [user.email],
+                author_emails: [Cookie.get("email")],
                 tags: concept.tags.trim().split(" "),
                 type: create.type
             })
@@ -131,7 +132,7 @@ export const addComment = async (comment: string) => {
             },
             body: JSON.stringify({
                 post_id: post.id,
-                email: user.email,
+                email: Cookie.get("email"),
                 comment
             })
         });
@@ -144,6 +145,30 @@ export const addComment = async (comment: string) => {
         console.log("successfully added the comment.")
     } catch (err) {
         console.log(err);
+    }
+}
+
+export const deletePost = async (post_id: number) => {
+    try {
+        const res = await fetch("/posts/delete", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                post_id: post_id
+            })
+        });
+
+        if (!res.ok) {
+            const error = await res.json()
+            throw new Error(error.error);
+        }
+
+
+        console.log("successfully deleted the post.")
+    } catch (err) {
+        console.log(err)
     }
 }
 

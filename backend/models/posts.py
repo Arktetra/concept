@@ -40,6 +40,8 @@ class Posts:
 
                 authors = cursor.fetchall()
 
+                comments = Posts.get_comments(id)
+
             data = {
                 "title": post["title"],
                 "abstract": post["abstract"],
@@ -48,6 +50,7 @@ class Posts:
                 "updated_at": post["updated_at"],
                 "authors": authors,
                 "tags": Posts.get_tags(id),
+                "comments": comments,
             }
             return jsonify(data)
 
@@ -112,7 +115,7 @@ class Posts:
                     for r in result:
                         comments.append(
                             {
-                                "user_name": Users.get_email_from_id(r["user_id"]),
+                                "user_name": Users.get_user_name(r["user_id"]),
                                 "comment_text": r["comment_text"],
                                 "created_at": r["created_at"],
                             }

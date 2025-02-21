@@ -201,3 +201,48 @@ class Posts:
             return "", 201
         except Exception as e:
             return database_error(e)
+
+    @staticmethod
+    def delete(post_id: int) -> Response:
+        """
+        Deletes a post from the Posts relation given its id.
+
+        Args:
+            post_id (int): the id of the post.
+
+        Returns:
+            Response: whether the deletion was successful or not.
+        """
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute(
+                    """
+                    DELETE FROM PostUser
+                    WHERE post_id = (%s)
+                    """,
+                    [post_id],
+                )
+
+                cur.execute(
+                    """
+                    DELETE FROM PostTag
+                    WHERE post_id = (%s)
+                    """,
+                    [post_id],
+                )
+
+                cur.execute(
+                    """
+                    DELETE FROM Posts
+                    WHERE post_id = (%s)
+                    """,
+                    [post_id],
+                )
+
+            conn.commit()
+
+            return "", 201
+        except Exception as e:
+            return database_error(e)

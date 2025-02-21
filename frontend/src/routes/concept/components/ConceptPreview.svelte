@@ -1,4 +1,7 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
+    import { deletePost } from "../../../callbacks.svelte";
+
     let { concept } : {
         concept: {
             id: number,
@@ -12,24 +15,53 @@
         }
     } = $props();
 
+    let conceptHovered = $state(false);
+
     $effect(() => {
         console.log(concept);
     })
 </script>
 
-<a href="/concept/{concept.type}/{concept.id}" class="category-preview">
-    <h2 class="title">{concept.title}</h2>
-    <div class="authors">{concept.authors.join(", ")}</div>
-    <div class="tags">
-        {#each concept.tags as tag}
-            <div class="tag">
-                {tag}
-            </div>
-        {/each}
-    </div>
-    <div class="abstract">{concept.abstract}</div>
-    <!-- <div class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim eum facilis aspernatur perferendis? Architecto aut esse repellat exercitationem. Quod laborum minus porro accusantium earum, ipsam omnis atque. Placeat, autem reprehenderit!</div> -->
-</a>
+<div
+    tabindex="0"
+    role="button"
+    aria-pressed="false"
+    class="concept-container"
+    onmouseenter={() => {conceptHovered = true;}}
+    onmouseleave={() => {conceptHovered = false;}}
+>
+    <a
+        href="/concept/{concept.type}/{concept.id}"
+        class="category-preview"
+    >
+        <h2 class="title">{concept.title}</h2>
+        <div class="authors">{concept.authors.join(", ")}</div>
+        <div class="tags">
+            {#each concept.tags as tag}
+                <div class="tag">
+                    {tag}
+                </div>
+            {/each}
+        </div>
+        <div class="abstract">{concept.abstract}</div>
+    </a>
+    {#if conceptHovered}
+        <div class="options">
+            <button id="edit" class="option">Edit</button>
+            <button id="categorize" class="option">Categorize</button>
+            <button
+                id="delete"
+                class="option"
+                onclick={async () => {
+                    if (concept.type === "posts") {
+                        await deletePost(concept.id);
+                        window.location.reload();
+                    }
+                }}
+            >Delete</button>
+        </div>
+    {/if}
+</div>
 
 <style>
     .category-preview {
@@ -37,9 +69,39 @@
         display: block;
         padding: 24px 0px;
         margin: 0px;
-        width: 80%;
+        flex-grow: 3;
+        /* width: 80%; */
+        /* margin-left: auto; */
+    }
+
+    .concept-container {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        display: flex;
         margin-left: auto;
         margin-right: auto;
+        width: 80%;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .option {
+        width: 100%;
+        padding: 0px 10px;
+        border-radius: 10px;
+        border: none;
+    }
+
+    .option:hover {
+        background-color: #000000dd;
+        color: #ffffff;
+        cursor: pointer;
+    }
+
+    .options {
+        margin-right: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
     }
 
     .tags {

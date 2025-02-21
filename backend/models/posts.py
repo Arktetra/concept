@@ -2,7 +2,9 @@ from flask import Response, jsonify
 from psycopg2.extras import DictCursor
 
 from backend.db import get_db
+from backend.models.comments import Comment
 from backend.models.tags import Tags
+from backend.models.users import Users
 from backend.utils import database_error
 
 
@@ -76,6 +78,47 @@ class Posts:
                 post_id = post_id[0] if post_id else 0
 
             return post_id + 1
+        except Exception as e:
+            return database_error(e)
+
+    @staticmethod
+    def get_comments(post_id: int) -> list[Comment]:
+        """
+        Returns all the comments associated with a post.
+
+        Args:
+            post_id (int): id of the post.
+
+        Returns:
+            list[Comment]: list of comment associated with the post id.
+        """
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute(
+                    """
+                    SELECT user_id, comment_text, created_at FROM Comments
+                    WHERE post_id = (%s)
+                    """,
+                    [post_id],
+                )
+
+                result = cur.fetchall()
+
+                comments = []
+
+                if result is not None:
+                    for r in result:
+                        comments.append(
+                            {
+                                "user_name": Users.get_email_from_id(r["user_id"]),
+                                "comment_text": r["comment_text"],
+                                "created_at": r["created_at"],
+                            }
+                        )
+
+            return comments
         except Exception as e:
             return database_error(e)
 

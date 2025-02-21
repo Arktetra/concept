@@ -73,7 +73,7 @@ class Posts:
                 )
                 post_id = cursor.fetchone()
 
-                post_id = post_id[0] if post_id else 1
+                post_id = post_id[0] if post_id else 0
 
             return post_id + 1
         except Exception as e:

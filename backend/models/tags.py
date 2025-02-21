@@ -66,7 +66,7 @@ class Tags:
                 )
                 tag_id = cursor.fetchone()
 
-                tag_id = tag_id[0] if tag_id else 1
+                tag_id = tag_id[0] if tag_id else 0
 
             return tag_id + 1
         except Exception as e:

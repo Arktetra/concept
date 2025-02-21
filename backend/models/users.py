@@ -84,7 +84,7 @@ class Users:
                 )
 
                 user_id = cursor.fetchone()
-                user_id = user_id[0] + 1 if user_id[0] else 1
+                user_id = user_id[0] + 1 if user_id[0] else 0
 
             return user_id
         except Exception as e:

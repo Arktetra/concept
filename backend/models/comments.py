@@ -6,6 +6,8 @@ from psycopg2.extras import DictCursor
 from backend.db import get_db
 from backend.utils import database_error
 
+Comment = Dict[str, str]
+
 
 class Comments:
     """
@@ -14,7 +16,7 @@ class Comments:
     """
 
     @staticmethod
-    def get(comment_id: int) -> Optional[Dict[str, str]]:
+    def get(comment_id: int) -> Optional[Comment]:
         """
         A function that returns the user id, comment text, and the time
         at which the comment was created at.
@@ -23,7 +25,7 @@ class Comments:
             comment_id (int): id of the comment.
 
         Returns:
-            Optional[Dict[str, str]]: A dictionary with "user_id", "comment_text",
+            Optional[Comment]: A dictionary with "user_id", "comment_text",
             "created_at" keys and their corresponding values.
         """
         try:

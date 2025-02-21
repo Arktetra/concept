@@ -72,6 +72,19 @@ export const loginCallback = async (email: string, password: string) => {
     }
 }
 
+export const logoutCallback = async () => {
+    try {
+        const res = await fetch("/accounts/logout");
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export const getConcepts = async () => {
     try {
         const res = await fetch("concepts/get");

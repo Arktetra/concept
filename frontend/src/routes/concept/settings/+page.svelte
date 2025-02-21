@@ -1,5 +1,9 @@
 <script>
+    import { onMount } from "svelte";
+    import { Cookie } from "../../../cookie";
     import { user } from "../../../state.svelte";
+    import { logoutCallback } from "../../../callbacks.svelte";
+    import { goto } from "$app/navigation";
 
     // Reactive variables for settings
     let theme = 'light'; // Default theme
@@ -12,7 +16,85 @@
         alert('Settings saved!');
         // Here, you can add logic to send the updated settings to your backend/database
     }
+
+    // onMount(() => {
+    //     console.log(document.cookie);
+    // })
 </script>
+
+<!-- Settings Section -->
+<div class="settings-container">
+    <h1>Settings</h1>
+
+    <!-- Theme Selection Card -->
+    <div class="setting-card">
+        <h2>Theme</h2>
+        <label>
+            Select Theme:
+            <select bind:value={theme}>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+        </label>
+    </div>
+
+    <!-- Notifications Card -->
+    <div class="setting-card">
+        <h2>Notifications</h2>
+        <label>
+            Enable Notifications:
+            <div class="toggle-switch">
+                <input type="checkbox" bind:checked={notificationsEnabled} />
+                <span class="slider"></span>
+            </div>
+        </label>
+    </div>
+
+    <!-- Account Information Card -->
+    <div class="setting-card">
+        <h2>Account Information</h2>
+        <!-- <label>
+            Username:
+            <input type="text" bind:value={username} />
+        </label>
+        <label>
+            Email:
+            <input type="email" bind:value={user.email} />
+        </label> -->
+        <p>
+            Username: {Cookie.get("name").replaceAll(/"/g, "")}
+        </p>
+        <p>
+            Email: {Cookie.get("email")}
+        </p>
+        {#if Cookie.get("email") === ""}
+            <button
+                id="login"
+                onclick={() => {
+                    goto("/concept/login");
+                }}
+            >
+            Login
+            </button>
+        {:else}
+            <button
+                id="logout"
+                onclick={async () => {
+                    await logoutCallback();
+                    goto("/concept/settings");
+                }}
+            >
+                Logout
+            </button>
+        {/if}
+    </div>
+
+    <!-- Save Button -->
+    <button class="save-button" onclick={saveSettings}>
+
+        Save Changes
+    </button>
+</div>
 
 <style>
     /* General Styles */
@@ -127,53 +209,20 @@
         background: #6d28d9; /* Darker purple on hover */
     }
 
+    #logout, #login {
+        background-color: #a8a8a8;
+        color: #0f0f0f;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    #logout:hover, #login:hover {
+        background-color: #0f0f0f;
+        color: #f0f0f0;
+    }
+
 
 </style>
 
-<!-- Settings Section -->
-<div class="settings-container">
-    <h1>Settings</h1>
-
-    <!-- Theme Selection Card -->
-    <div class="setting-card">
-        <h2>Theme</h2>
-        <label>
-            Select Theme:
-            <select bind:value={theme}>
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-            </select>
-        </label>
-    </div>
-
-    <!-- Notifications Card -->
-    <div class="setting-card">
-        <h2>Notifications</h2>
-        <label>
-            Enable Notifications:
-            <div class="toggle-switch">
-                <input type="checkbox" bind:checked={notificationsEnabled} />
-                <span class="slider"></span>
-            </div>
-        </label>
-    </div>
-
-    <!-- Account Information Card -->
-    <div class="setting-card">
-        <h2>Account Information</h2>
-        <label>
-            Username:
-            <input type="text" bind:value={username} />
-        </label>
-        <label>
-            Email:
-            <input type="email" bind:value={user.email} />
-        </label>
-    </div>
-
-    <!-- Save Button -->
-    <button class="save-button" on:click={saveSettings}>
-
-        Save Changes
-    </button>
-</div>

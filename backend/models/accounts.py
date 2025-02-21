@@ -1,6 +1,6 @@
 from typing import Optional
 
-from flask import Response, jsonify
+from flask import Response, jsonify, make_response
 from psycopg2.extras import DictCursor
 
 from backend.db import get_db
@@ -32,7 +32,7 @@ class AccountManager:
 
                 conn.commit()
 
-                return "", 201
+                return make_response("")
 
         except Exception as e:
             database_error(e)
@@ -59,7 +59,7 @@ class AccountManager:
                 if actual_password != password:
                     return jsonify({"error": "Invalid Password."}), 401
                 else:
-                    return "", 201
+                    return make_response("")
 
         except Exception as e:
             database_error(e)

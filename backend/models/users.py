@@ -1,3 +1,5 @@
+from typing import Optional
+
 from flask import jsonify
 from psycopg2.extras import DictCursor
 
@@ -39,6 +41,31 @@ class Users:
 
             return user_id
 
+        except Exception as e:
+            return database_error(e)
+
+    @staticmethod
+    def get_email_from_id(id: int) -> Optional[str]:
+        """
+        A function to get the user email from user id.
+
+        Returns:
+            Optional[str]: user email
+        """
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute(
+                    """
+                    SELECT email FROM Users
+                    WHERE user_id = (%s)
+                    """,
+                    [id],
+                )
+                result = cur.fetchone()
+
+            return result if result else None
         except Exception as e:
             return database_error(e)
 

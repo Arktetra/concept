@@ -1,6 +1,7 @@
 <script>
     import { discardCallback, publishCallback } from '../../callbacks.svelte';
-    import { create, user } from '../../state.svelte';
+    import { Cookie } from '../../cookie';
+    import { create } from '../../state.svelte';
 
     let { children } = $props();
 
@@ -30,7 +31,7 @@
                 Discard
                 </button>
             {:else}
-                {#if user.email === ""}
+                {#if Cookie.get("email") === ""}
                     <a href="/concept/register">Create</a>
                 {:else}
                     <a href="/concept/create">Create</a>

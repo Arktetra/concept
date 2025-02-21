@@ -1,10 +1,8 @@
 <script lang="ts">
-    import { text } from "@sveltejs/kit";
     import Comment from "./Comment.svelte";
-    import { onMount } from "svelte";
-    import { post, user } from "../../../state.svelte";
     import { goto } from "$app/navigation";
     import { addComment } from "../../../callbacks.svelte";
+    import { Cookie } from "../../../cookie";
 
     let { comments, className } : {
         comments: {
@@ -20,7 +18,7 @@
     let comment = $state("");
 
     async function commentCallback() {
-        if (user.email === "") {
+        if (Cookie.get("email") === "") {
             goto("/concept/register");
         }
 

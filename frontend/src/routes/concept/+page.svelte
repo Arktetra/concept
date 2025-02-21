@@ -2,4 +2,4 @@
     import Concept from "./components/Concept.svelte";
 </script>
 
- <Concept />
+<Concept />

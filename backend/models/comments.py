@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 
 from flask import Response
 from psycopg2.extras import DictCursor
@@ -14,19 +14,43 @@ class Comments:
     """
 
     @staticmethod
-    def get(comment_id: int) -> Dict[str, str]:
+    def get(comment_id: int) -> Optional[Dict[str, str]]:
         """
         A function that returns the user id, comment text, and the time
         at which the comment was created at.
 
         Args:
-            comment_id (int): id of tge comment.
+            comment_id (int): id of the comment.
 
         Returns:
-            Dict[str, str]: A dictionary with "user_id", "comment_text",
+            Optional[Dict[str, str]]: A dictionary with "user_id", "comment_text",
             "created_at" keys and their corresponding values.
         """
-        raise NotImplementedError
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute(
+                    """
+                    SELECT user_id, comment_text, created_at FROM Comments
+                    WHERE comment_id = (%s)
+                    """,
+                    [comment_id],
+                )
+
+                result = cur.fetchone()
+
+            return (
+                {
+                    "user_id": result["user_id"],
+                    "comment_text": result["comment_text"],
+                    "created_at": result["created_at"],
+                }
+                if result
+                else None
+            )
+        except Exception as e:
+            return database_error(e)
 
     @staticmethod
     def get_next_id() -> int:

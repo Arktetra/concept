@@ -70,6 +70,34 @@ class Users:
             return database_error(e)
 
     @staticmethod
+    def get_user_name(id: int) -> Optional[str]:
+        """
+        Returns the name of the user given their id.
+
+        Args:
+            id (int): id of the user.
+
+        Returns:
+            Optional[str]: name of the user.
+        """
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute(
+                    """
+                    SELECT user_name FROM Users
+                    WHERE user_id = (%s)
+                    """,
+                    [id],
+                )
+                result = cur.fetchone()
+
+            return result if result else None
+        except Exception as e:
+            return database_error(e)
+
+    @staticmethod
     def check_email_existence(email: str) -> bool:
         try:
             conn = get_db()

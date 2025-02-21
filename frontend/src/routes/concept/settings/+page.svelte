@@ -1,4 +1,6 @@
 <script>
+    import { user } from "../../../state.svelte";
+
     // Reactive variables for settings
     let theme = 'light'; // Default theme
     let notificationsEnabled = true; // Default notification preference
@@ -165,7 +167,7 @@
         </label>
         <label>
             Email:
-            <input type="email" bind:value={email} />
+            <input type="email" bind:value={user.email} />
         </label>
     </div>
 

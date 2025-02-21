@@ -60,6 +60,10 @@ def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
 
     app.register_blueprint(posts.bp)
 
+    from . import comments
+
+    app.register_blueprint(comments.bp)
+
     from . import concepts
 
     app.register_blueprint(concepts.bp)

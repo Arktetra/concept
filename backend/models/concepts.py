@@ -83,13 +83,11 @@ class Concepts:
                 if concept["type"] == "posts":
                     authors = post_authors_map[concept[0]]
                     tags = Posts.get_tags(concept[0])
-                    comments = Posts.get_comments(concept[0])
                 else:
                     if concept[0] in category_authors_map:
                         authors = category_authors_map[concept[0]]
                     else:
                         authors = []
-                        comments = []
 
                     tags = []
 
@@ -102,7 +100,6 @@ class Concepts:
                         "updated_at": concept["updated_at"],
                         "authors": authors,
                         "tags": tags,
-                        "comments": comments,
                         "type": concept["type"],
                     }
                 )

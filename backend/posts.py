@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, Response, request
 
 from backend.models.posts import Posts
 
@@ -11,3 +11,8 @@ def get_post() -> dict:
         post_id = request.json["slug"]
 
         return Posts.get(post_id)
+
+
+@bp.route("/comments", methods=["POST"])
+def get_comments() -> Response:
+    return Posts.get_comments(request.json["post_id"])

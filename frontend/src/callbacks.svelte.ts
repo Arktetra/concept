@@ -1,4 +1,4 @@
-import { concept, create, errorTracker, user } from "./state.svelte";
+import { concept, create, errorTracker, post, user } from "./state.svelte";
 import { goto } from "$app/navigation";
 
 export const resetErrorTracker = () => {
@@ -118,6 +118,31 @@ export const addConcept = async () => {
         create.success = true;
     } catch (err) {
         create.success = false;
+        console.log(err);
+    }
+}
+
+export const addComment = async (comment: string) => {
+    try {
+        const res = await fetch("/comments/add", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                post_id: post.id,
+                email: user.email,
+                comment
+            })
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error);
+        }
+
+        console.log("successfully added the comment.")
+    } catch (err) {
         console.log(err);
     }
 }

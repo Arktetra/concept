@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Comments from "../../components/Comments.svelte";
     import type { PageData } from "./$types";
 
     let { data }: { data: PageData } = $props();
@@ -28,9 +29,14 @@
             {data.content}
         </div>
     </div>
+    <Comments comments={data.comments} className="internal"/>
 </article>
 
 <style>
+    :global(.internal) {
+        width: 50%;
+    }
+
     .tags {
         display: flex;
         gap: 5px;
@@ -65,18 +71,13 @@
         font-size: 18px;
     }
 
-    .internal {
-        width: 50%;
-    }
-
     .title>h1 {
         margin-bottom: 0px;
         font-size: 48px;
     }
 
     .metadata {
-        padding: 1rem 0 1.5rem 0;
-        margin: 0 0 1.5rem 0;
+        padding: 1rem 0 1rem 0;
         border-bottom: 1px solid rgb(0, 0, 0, 0.2);
         width: 100%;
         display: flex;
@@ -92,10 +93,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding: 1rem 0 1rem 0;
     }
 
     @media only screen and (max-width: 768px) {
-        .internal {
+        :global(.internal) {
             width: 95vw;
         }
     }

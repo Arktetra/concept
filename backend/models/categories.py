@@ -1,4 +1,4 @@
-from flask import Response, jsonify
+from flask import Response, jsonify, make_response
 from psycopg2.extras import DictCursor
 
 from backend.db import get_db
@@ -102,5 +102,35 @@ class Categories:
                 conn.commit()
 
             return "", 201
+        except Exception as e:
+            return database_error(e)
+
+    @staticmethod
+    def delete(id: int) -> Response:
+        try:
+            conn = get_db()
+
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute(
+                    """
+                    UPDATE Posts
+                    SET category_id = NULL
+                    WHERE category_id = (%s)
+                    """,
+                    [id],
+                )
+
+                cur.execute(
+                    """
+                    DELETE FROM Categories
+                    WHERE category_id = (%s)
+                    """,
+                    [id],
+                )
+
+            conn.commit()
+
+            return make_response("", 201)
+
         except Exception as e:
             return database_error(e)

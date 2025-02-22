@@ -81,7 +81,7 @@
                 id="logout"
                 onclick={async () => {
                     await logoutCallback();
-                    goto("/concept/settings");
+                    window.location.reload();
                 }}
             >
                 Logout

@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
-    import { deletePost } from "../../../callbacks.svelte";
+    import { deleteCategory, deletePost } from "../../../callbacks.svelte";
 
     let { concept } : {
         concept: {
@@ -55,6 +54,9 @@
                 onclick={async () => {
                     if (concept.type === "posts") {
                         await deletePost(concept.id);
+                        window.location.reload();
+                    } else {
+                        await deleteCategory(concept.id);
                         window.location.reload();
                     }
                 }}

@@ -1,9 +1,19 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
+
 </script>
 
 <div class="popup-overlay" id="popupOverlay">
     <div class="popup" id="popup">
-        <span class="close" id="closePopup">&times;</span>
+        <span
+            tabindex="0"
+            role="button"
+            aria-pressed="false"
+            class="close"
+            id="closePopup"
+            onclick={() => {goto("/concept/")}}
+            onkeypress={() => {}}
+        >&times;</span>
         <div class="popup-content">
             <p>Select one of the following options:</p>
             <a id="createPost" href="/concept/create/post">Create Post</a>

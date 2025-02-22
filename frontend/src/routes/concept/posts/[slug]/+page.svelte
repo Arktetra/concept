@@ -1,5 +1,6 @@
 <script lang="ts">
-    import Comments from "../../components/Comments.svelte";
+    import { mdToHtml } from "../../../../converter";
+import Comments from "../../components/Comments.svelte";
     import type { PageData } from "./$types";
 
     let { data }: { data: PageData } = $props();
@@ -26,7 +27,7 @@
     </div>
     <div class="body">
         <div class="internal">
-            {data.content}
+            {@html mdToHtml(data.content)}
         </div>
     </div>
     <Comments comments={data.comments} className="internal"/>

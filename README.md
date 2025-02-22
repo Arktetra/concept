@@ -4,16 +4,23 @@ For writing concepts.
 
 ## Setup
 
-Run `pip install -e .[dev]` to install the project with development dependencies.
+1. Install Dependencies
+   Run the following command to install the project with development dependencies:
 
-Run the following to setup pre-commit:
+```bash
+pip install -e .[dev]
+```
+
+2. Pre-commit Setup
+   Set up pre-commit hooks by running:
 
 ```bash
 pre-commit install
 pre-commit autoupdate
 ```
 
-To run the frontend:
+3. Frontend Setup
+   To run the frontend, navigate to the frontend directory and execute:
 
 ```bash
 cd frontend
@@ -42,7 +49,7 @@ To view the data in a table in the database, run the following command.
 flask --app backend show-db --name <table_name>
 ```
 
-Example:
+Example: To view data in a Users table, run
 
 ```bash
 flask --app backend show-db --name Users
@@ -57,7 +64,7 @@ The application is divided mainly divided into two parts:
 
 ### Back-end
 
-The back-end was developed using flask. It consists of the following:
+The back-end is built with Flask and organized as follows:
 
 ```shell
 backend
@@ -81,6 +88,8 @@ backend
 │       users.py
 ```
 
+#### key Files:
+
 At the root of the back-end, we have `__init__.py` in which we have a application factory for creating the Flask app. In the instance of app returned by the application factory we register all the blueprints.
 
 The `db.py` file is used for creating connection with the database. The database is hosted on Render.
@@ -91,7 +100,7 @@ The remaining files at the root of the backend are the blueprints. These bluepri
 
 The `models` directory contains files containing classes to interact with the corresponding relation in the hosted database.
 
-#### Relations
+#### Database Relations
 
 The database consists of the following relations:
 
@@ -105,7 +114,9 @@ The database consists of the following relations:
 
 ### Front-end
 
-The front-end was developed using Svelte 5. Routings for the requests from front-end to the back-end are handled by using vite. The `src` directory in the front-end is the major part of the frontend:
+The front-end is built using Svelte 5. Routings for the requests from front-end to the back-end are handled by using vite. The `src` directory in the front-end is the major part of the frontend.
+
+Structure Overview:
 
 ```bash
 src
@@ -182,7 +193,7 @@ A markdown to HTML converter was developed using regex. The converter consists o
 
 The converter is present in the `converter.ts` file.
 
-#### Cookie
+#### Cookie Management
 
 Inorder to make the user session persist, we had to use cookies. But there was no way to efficiently get a specific cookie from `document.cookie`, so we developed a class `Cookie` with a static method `get` in `cookie.ts` to do this.
 
@@ -200,7 +211,7 @@ When the user clicks on a category displayed in `/concept/` page, they will be r
 
 ##### Components
 
-The `components` directory consists of various components that are used by the various pages in the application.  It contains components for:
+The `components` directory consists of various components that are used by the various pages in the application. It contains components for:
 
 1. **Comment** - an individual comment.
 2. **Comments** - comments section in a post, where users can write comments and view comments.
@@ -227,4 +238,4 @@ The user can go to `/concept/register/` to register an account.
 
 ##### Settings
 
-The user can go to `/concept/settings/` to log out and make changes to other parameters displayed there.
+The user can go to `/concept/settings/` for account management, including logout and profile updates.

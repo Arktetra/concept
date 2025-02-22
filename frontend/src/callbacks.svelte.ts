@@ -34,7 +34,8 @@ export const registerCallback = async (user_name: string, email: string, passwor
 
         user.email = email;
 
-        goto("/concept/");
+        // goto("/concept/");
+        window.location.href = "/concept/"
     } catch (err) {
         console.log(err);
     }
@@ -66,7 +67,8 @@ export const loginCallback = async (email: string, password: string) => {
 
         user.email = email;
 
-        goto("/concept/")
+        // goto("/concept/")
+        window.location.href = "/concept/"
     } catch (err) {
         console.log(err);
     }
@@ -182,6 +184,29 @@ export const deletePost = async (post_id: number) => {
         console.log("successfully deleted the post.")
     } catch (err) {
         console.log(err)
+    }
+}
+
+export const deleteCategory = async (category_id: number) => {
+    try {
+        const res = await fetch("/categories/delete", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                category_id: category_id
+            })
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error);
+        }
+
+        console.log("successfully deleted the category.");
+    } catch (err) {
+        console.log(err);
     }
 }
 

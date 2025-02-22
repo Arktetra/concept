@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-## Database
+## Database-related Commands
 
 Run the following command for initializing the database. **This command deletes all
 the existing data and initializes the tables in the database.**

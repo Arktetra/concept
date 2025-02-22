@@ -4,14 +4,16 @@ For writing concepts.
 
 ## Setup
 
-1. Install Dependencies
+1. **Install Dependencies:**
+
    Run the following command to install the project with development dependencies:
 
 ```bash
 pip install -e .[dev]
 ```
 
-2. Pre-commit Setup
+2. **Pre-commit Setup:**
+
    Set up pre-commit hooks by running:
 
 ```bash
@@ -19,7 +21,8 @@ pre-commit install
 pre-commit autoupdate
 ```
 
-3. Frontend Setup
+3. **Frontend Setup:**
+
    To run the frontend, navigate to the frontend directory and execute:
 
 ```bash

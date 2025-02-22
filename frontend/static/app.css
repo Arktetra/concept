@@ -1,0 +1,70 @@
+body {
+  background-color: white;
+  color: black;
+}
+
+body.dark {
+  background-color: black;
+  color: white;
+}
+
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark p,
+body.dark span,
+body.dark li,
+body.dark .authors,
+body.dark .developer,
+body.dark .abstract {
+  color: #e0e0e0;
+}
+
+body.dark a {
+  color: #8ab4f8;
+}
+
+body.dark .header,
+body.dark .nav-bar {
+  background-color: #1e1e1e;
+  border-bottom: 1px solid #333333;
+}
+
+body.dark .nav-links>a {
+  color: #e0e0e0;
+}
+
+body.dark #publish {
+  background-color: #28a745;
+}
+
+body.dark #discard {
+  background-color: #dc3545;
+}
+
+body.dark .setting-card,
+body.dark .blog-card,
+body.dark .comment-card {
+  background-color: #1e1e1e;
+  border: 1px solid #333333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  color: white;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background-color: #1e1e1e;
+  border: 1px solid #444444;
+  color: #e0e0e0;
+}
+
+body.dark button {
+  background-color: #333333;
+  color: #e0e0e0;
+  border: 1px solid #444444;
+}
+
+body.dark button:hover {
+  background-color: #444444;
+}

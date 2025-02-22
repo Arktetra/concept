@@ -235,6 +235,14 @@ class Posts:
 
                 cur.execute(
                     """
+                    DELETE FROM Comments
+                    WHERE post_id = (%s)
+                    """,
+                    [post_id],
+                )
+
+                cur.execute(
+                    """
                     DELETE FROM Posts
                     WHERE post_id = (%s)
                     """,

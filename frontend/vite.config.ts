@@ -9,6 +9,7 @@ export default defineConfig({
 			'/accounts/logout': 'http://127.0.0.1:5000',
 			'/accounts/register': 'http://127.0.0.1:5000',
 			'/categories/get': 'http://127.0.0.1:5000',
+			'/categories/delete': 'http://127.0.0.1:5000',
 			'/comments/add': 'http://127.0.0.1:5000',
 			'/concepts/get': 'http://127.0.0.1:5000',
 			'/concepts/add': 'http://127.0.0.1:5000',

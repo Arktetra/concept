@@ -4,14 +4,15 @@
   import { writable } from "svelte/store";
   import { loginCallback } from "../../../callbacks.svelte";
 
-  let email = "john.doe@example.com";
-  let password = "securepassword";
+  let email = "";
+  let password = "";
   let error = writable("");
 </script>
 
 <div class="wrapper">
   <form on:submit|preventDefault={() => loginCallback(email, password)}>
     <h2>Login</h2>
+    <p>Create a <a href="/concept/register">new account</a>.</p>
     <label for="email">Email</label>
     <input
       id="email"

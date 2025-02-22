@@ -16,6 +16,9 @@
   <form on:submit|preventDefault={() => registerCallback(userName, email, password, mobile)}>
     <h2>Register</h2>
 
+    <p>
+      Already have an account? <a href="/concept/login">Login</a>
+    </p>
     <label for="userName">Full Name</label>
     <input
       id="userName"
@@ -70,6 +73,10 @@
 </div>
 
 <style>
+  a {
+    color: anchor;
+  }
+
   .wrapper {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;

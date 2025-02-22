@@ -20,7 +20,7 @@ export const mdToHtmlBullets = (text: string): string => {
 }
 
 export const mdToHtmlParagraph = (text: string): string => {
-    let re = /^(?!(\s*$|<h.>|<ul>|<li>|<\/ul>))([\s\S]*?)\n$/gm;
+    let re = /^(?!(\s*$|<h.>|<ul>|<li>|<\/ul>))([\s\S]*?)$/gm;
 
     return text.replace(re, `<p>$2</p>\n`);
 }

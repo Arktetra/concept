@@ -1,6 +1,6 @@
 <script lang="ts">
     import { mdToHtml } from "../../../../converter";
-import Comments from "../../components/Comments.svelte";
+    import Comments from "../../components/Comments.svelte";
     import type { PageData } from "./$types";
 
     let { data }: { data: PageData } = $props();

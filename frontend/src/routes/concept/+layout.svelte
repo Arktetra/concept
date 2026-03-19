@@ -31,11 +31,11 @@
                 Discard
                 </button>
             {:else}
-                {#if Cookie.get("email") === ""}
+                <!-- {#if Cookie.get("email") === ""}
                     <a href="/concept/register">Create</a>
-                {:else}
+                {:else} -->
                     <a href="/concept/create">Create</a>
-                {/if}
+                <!-- {/if} -->
             {/if}
             <a href="/concept/about">About</a>
             <a href="/concept/settings">Settings</a>
